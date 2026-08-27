@@ -57,9 +57,10 @@ export function HomeLearning({
               return (
                 <article
                   key={item.title}
-                  className="group grid grid-cols-[auto_1fr] gap-4 border-b border-border/80 py-6 transition-transform duration-300 hover:-translate-y-0.5 sm:grid-cols-[auto_0.55fr_1fr] sm:items-center sm:gap-6"
+                  data-premium-hover="row"
+                  className="group grid grid-cols-[auto_1fr] gap-4 border-b border-border/80 py-6 sm:grid-cols-[auto_0.55fr_1fr] sm:items-center sm:gap-6"
                 >
-                  <span className="flex size-11 items-center justify-center rounded-full bg-warm-surface text-primary">
+                  <span data-hover-icon className="flex size-11 items-center justify-center rounded-full bg-warm-surface text-primary">
                     <Icon aria-hidden="true" />
                   </span>
                   <h3 className="font-heading font-semibold tracking-tight">{item.title}</h3>

@@ -44,13 +44,13 @@ export function HomeTrust({
     <>
       <section id="teachers" className="border-b border-border/70 py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:px-8">
-          <div className="group relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-muted shadow-2xl shadow-foreground/10 sm:min-h-[30rem]">
+          <div data-premium-hover="media" className="group relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-muted shadow-2xl shadow-foreground/10 sm:min-h-[30rem]">
             <Image
               src="/images/shia-taleem-female-teacher.png"
               alt={dictionary.home.teachersTitle}
               fill
               sizes="(min-width: 1280px) 480px, (min-width: 1024px) 42vw, 100vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.015]"
+              className="object-cover"
             />
           </div>
 
@@ -72,8 +72,8 @@ export function HomeTrust({
               {dictionary.home.learnerPoints.map((point, index) => {
                 const Icon = teacherStandardIcons[index] ?? ShieldCheckIcon;
                 return (
-                  <div key={point} className="flex min-h-24 items-center gap-4 bg-background p-5">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-warm-surface text-primary">
+                  <div key={point} data-premium-hover="row" className="flex min-h-24 items-center gap-4 bg-background p-5">
+                    <span data-hover-icon className="flex size-10 shrink-0 items-center justify-center rounded-full bg-warm-surface text-primary">
                       <Icon aria-hidden="true" />
                     </span>
                     <p className="font-heading text-sm font-semibold tracking-tight">{point}</p>

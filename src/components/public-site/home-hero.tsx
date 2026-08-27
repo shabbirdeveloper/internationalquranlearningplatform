@@ -39,9 +39,10 @@ export function HomeHero({ locale, dictionary }: { locale: Locale; dictionary: D
             return (
               <li
                 key={step.title}
+                data-premium-hover="rail"
                 className="grid grid-cols-[auto_1fr] gap-4 border-b border-border/80 py-6 last:border-b-0 lg:border-e lg:border-b-0 lg:px-8 lg:first:ps-0 lg:last:border-e-0 lg:last:pe-0"
               >
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                <span data-hover-icon className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
                   <Icon aria-hidden="true" />
                 </span>
                 <div>
