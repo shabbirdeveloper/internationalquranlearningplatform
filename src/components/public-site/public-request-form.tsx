@@ -10,6 +10,7 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/c
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
+import { PublicCountryPhoneControls } from "@/components/shared/country-fields";
 import type { PublicCopy } from "@/content/public-pages";
 import { submitContactRequest, submitTrialRequest, submitTutorRequest } from "@/features/public-site/actions";
 import type { PublicRequestState } from "@/features/public-site/schemas";
@@ -32,8 +33,8 @@ export function PublicRequestForm({ kind, locale, copy, defaultCourse }: { kind:
       <input type="hidden" name="locale" value={locale}/>{defaultCourse ? <input type="hidden" name="courseSlug" value={defaultCourse}/> : null}
       {errorMessage ? <Alert variant="destructive"><AlertDescription>{errorMessage}</AlertDescription></Alert> : null}
       <FieldGroup className="grid min-w-0 max-w-full gap-5 sm:grid-cols-2">
-        <TextField name="fullName" label={labels.name} error={state.fieldErrors?.fullName}/><TextField name="email" label={labels.email} type="email" error={state.fieldErrors?.email}/><TextField name="phone" label={labels.phone} type="tel" required={kind !== "contact"} error={state.fieldErrors?.phone}/>
-        {kind !== "contact" ? <TextField name="country" label={labels.country} error={state.fieldErrors?.country}/> : null}
+        <TextField name="fullName" label={labels.name} error={state.fieldErrors?.fullName}/><TextField name="email" label={labels.email} type="email" error={state.fieldErrors?.email}/>
+        <PublicCountryPhoneControls locale={locale} countryLabel={labels.country} phoneLabel={labels.phone} phoneRequired={kind !== "contact"} showCountryField={kind !== "contact"} countryError={state.fieldErrors?.country} phoneError={state.fieldErrors?.phone}/>
         {kind === "trial" ? <><TextField name="timeZone" label={labels.timezone} error={state.fieldErrors?.timeZone}/><TextField name="learnerAge" label={labels.learnerAge} error={state.fieldErrors?.learnerAge}/><TextField name="teacherPreference" label={labels.preferredTeacher} required={false}/>{defaultCourse ? null : <TextField name="courseSlug" label={copy.hero.courses[0]} required={false}/>}</> : null}
         {kind === "contact" ? <TextField name="subject" label={labels.subject} error={state.fieldErrors?.subject}/> : null}
         {kind === "tutor" ? <><TextField name="subjects" label={labels.teachingSubjects} error={state.fieldErrors?.subjects}/><TextField name="languages" label={labels.languages} error={state.fieldErrors?.languages}/></> : null}

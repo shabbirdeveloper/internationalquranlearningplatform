@@ -2,9 +2,19 @@
 
 import { createServerSupabaseAdminClient } from "@/lib/supabase/admin";
 import { contactRequestSchema, trialRequestSchema, tutorRequestSchema, type PublicRequestState } from "@/features/public-site/schemas";
+import { applyDialCode } from "@/lib/countries";
 
 function value(formData: FormData, key: string) { return String(formData.get(key) ?? ""); }
-function fields(formData: FormData) { return { fullName: value(formData, "fullName"), email: value(formData, "email"), phone: value(formData, "phone"), locale: value(formData, "locale") }; }
+function fields(formData: FormData) {
+  const phone = value(formData, "phoneLocal");
+  const phoneDialCode = value(formData, "phoneCountry").split(":")[1] ?? "";
+  return {
+    fullName: value(formData, "fullName"),
+    email: value(formData, "email"),
+    phone: phone ? applyDialCode(phone, phoneDialCode) : "",
+    locale: value(formData, "locale"),
+  };
+}
 
 export async function submitTrialRequest(_state: PublicRequestState, formData: FormData): Promise<PublicRequestState> {
   const parsed = trialRequestSchema.safeParse({ ...fields(formData), country: value(formData, "country"), timeZone: value(formData, "timeZone"), learnerAge: value(formData, "learnerAge"), courseSlug: value(formData, "courseSlug") || undefined, teacherPreference: value(formData, "teacherPreference") || undefined, goals: value(formData, "goals"), schedule: value(formData, "schedule") });

@@ -3,10 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { startTransition, useActionState, useState, type FormEvent } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import type { z } from "zod";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CountrySelectControl, useCountryOptions } from "@/components/shared/country-fields";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -40,6 +41,7 @@ import {
 } from "@/features/portal/schemas";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
+import { applyDialCode } from "@/lib/countries";
 import type {
   CoreProfile,
   ParentProfile,
@@ -86,6 +88,19 @@ export function CoreProfileForm({
       countryCode: profile?.country_code ?? "",
     },
   });
+  const countries = useCountryOptions();
+  const currentCountryCode = useWatch({ control: form.control, name: "countryCode" }) ?? "";
+
+  function changeCountry(nextCountryCode: string) {
+    const previousDialCode = countries.find((country) => country.iso2 === currentCountryCode)?.dialCode ?? "";
+    const nextDialCode = countries.find((country) => country.iso2 === nextCountryCode)?.dialCode ?? "";
+    form.setValue("countryCode", nextCountryCode, { shouldDirty: true, shouldValidate: true });
+    form.setValue(
+      "phoneE164",
+      applyDialCode(form.getValues("phoneE164") ?? "", nextDialCode, previousDialCode),
+      { shouldDirty: true, shouldValidate: true },
+    );
+  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     const formData = new FormData(event.currentTarget);
@@ -126,7 +141,7 @@ export function CoreProfileForm({
           </Field>
           <Field data-invalid={Boolean(form.formState.errors.countryCode || state.fieldErrors?.countryCode)}>
             <FieldLabel htmlFor={`${portal}-countryCode`}>{copy.countryCode}</FieldLabel>
-            <Input id={`${portal}-countryCode`} autoComplete="country" maxLength={2} placeholder="MY" aria-invalid={Boolean(form.formState.errors.countryCode)} {...form.register("countryCode")} />
+            <CountrySelectControl id={`${portal}-countryCode`} name="countryCode" locale={locale} countries={countries} value={currentCountryCode} onChange={changeCountry} invalid={Boolean(form.formState.errors.countryCode)} />
             <FieldError errors={errorList(form.formState.errors.countryCode?.message, state.fieldErrors?.countryCode)} />
           </Field>
         </FieldGroup>
@@ -183,13 +198,15 @@ export function TeacherProfileForm({ locale, profile, languages, availability: i
   const [state, action, pending] = useActionState(updateTeacherProfileAction, initialState);
   const [availability, setAvailability] = useState<AvailabilityDraft[]>(() => initialAvailability(initialRows, defaultTimeZone));
   const form = useForm<TeacherProfileFormInput, unknown, z.output<typeof teacherProfileFormSchema>>({ resolver: zodResolver(teacherProfileFormSchema), defaultValues: { locale, biography: profile?.biography ?? "", gender: (profile?.gender as TeacherProfileFormInput["gender"]) ?? "not_specified", countryCode: profile?.country_code ?? "", educationSummary: profile?.education_summary ?? "", hawzaQualifications: profile?.hawza_qualifications ?? "", teachingExperienceYears: profile?.teaching_experience_years ?? 0, preferredStudentAgeGroups: (profile?.preferred_student_age_groups as TeacherProfileFormInput["preferredStudentAgeGroups"]) ?? [], languageCodes: languages as TeacherProfileFormInput["languageCodes"], availability } });
+  const countries = useCountryOptions();
+  const currentCountryCode = useWatch({ control: form.control, name: "countryCode" }) ?? "";
   function submit(event: FormEvent<HTMLFormElement>) { const formData = new FormData(event.currentTarget); formData.set("availability", JSON.stringify(availability)); void form.handleSubmit(() => startTransition(() => action(formData)))(event); }
   function updateAvailability(index: number, key: keyof AvailabilityDraft, value: string | number) { setAvailability((current) => current.map((row, rowIndex) => rowIndex === index ? { ...row, [key]: value } : row)); }
   return (
     <form onSubmit={submit} className="flex flex-col gap-6" noValidate><input type="hidden" {...form.register("locale")} /><FormMessage state={state} dictionary={dictionary} />
       <FieldSet><FieldLegend>{copy.professionalProfile}</FieldLegend><FieldGroup>
         <Field data-invalid={Boolean(form.formState.errors.biography)}><FieldLabel htmlFor="biography">{copy.biography}</FieldLabel><Textarea id="biography" rows={5} aria-invalid={Boolean(form.formState.errors.biography)} {...form.register("biography")} /><FieldError errors={errorList(form.formState.errors.biography?.message, state.fieldErrors?.biography)} /></Field>
-        <div className="grid gap-5 md:grid-cols-2"><Field><FieldLabel htmlFor="teacherGender">{copy.gender}</FieldLabel><Controller control={form.control} name="gender" render={({ field }) => <Select name={field.name} value={field.value} onValueChange={field.onChange}><SelectTrigger id="teacherGender"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="not_specified">{copy.notSpecified}</SelectItem><SelectItem value="male">{copy.male}</SelectItem><SelectItem value="female">{copy.female}</SelectItem></SelectContent></Select>} /></Field><Field><FieldLabel htmlFor="teacherCountry">{copy.countryCode}</FieldLabel><Input id="teacherCountry" maxLength={2} placeholder="PK" {...form.register("countryCode")} /></Field></div>
+        <div className="grid gap-5 md:grid-cols-2"><Field><FieldLabel htmlFor="teacherGender">{copy.gender}</FieldLabel><Controller control={form.control} name="gender" render={({ field }) => <Select name={field.name} value={field.value} onValueChange={field.onChange}><SelectTrigger id="teacherGender"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="not_specified">{copy.notSpecified}</SelectItem><SelectItem value="male">{copy.male}</SelectItem><SelectItem value="female">{copy.female}</SelectItem></SelectContent></Select>} /></Field><Field><FieldLabel htmlFor="teacherCountry">{copy.countryCode}</FieldLabel><CountrySelectControl id="teacherCountry" name="countryCode" locale={locale} countries={countries} value={currentCountryCode} onChange={(value) => form.setValue("countryCode", value, { shouldDirty: true, shouldValidate: true })} required /></Field></div>
         <Field><FieldLabel htmlFor="educationSummary">{copy.education}</FieldLabel><Textarea id="educationSummary" rows={3} {...form.register("educationSummary")} /></Field>
         <Field><FieldLabel htmlFor="hawzaQualifications">{copy.hawzaQualifications}</FieldLabel><Textarea id="hawzaQualifications" rows={3} {...form.register("hawzaQualifications")} /></Field>
         <Field><FieldLabel htmlFor="experienceYears">{copy.teachingExperience}</FieldLabel><Input id="experienceYears" type="number" min={0} max={80} {...form.register("teachingExperienceYears")} /></Field>
