@@ -1,5 +1,3 @@
-import { BookOpenTextIcon } from "lucide-react";
-
 import type { Locale } from "@/i18n/config";
 
 import styles from "./quran-ayah-ticker.module.css";
@@ -70,13 +68,8 @@ export function QuranAyahTicker({ locale }: { locale: Locale }) {
         {ayah}. {copy.translation} {copy.reference}
       </p>
       <div className="flex min-h-14 w-full items-stretch sm:min-h-16">
-        <div className="relative z-10 flex w-[7.5rem] shrink-0 items-center justify-center gap-2 bg-gold px-3 text-center text-[0.68rem] font-bold uppercase tracking-[0.12em] text-sidebar shadow-[10px_0_30px_-18px_rgba(0,0,0,0.9)] sm:w-[10rem] sm:text-xs sm:tracking-[0.16em] rtl:shadow-[-10px_0_30px_-18px_rgba(0,0,0,0.9)]">
-          <BookOpenTextIcon aria-hidden="true" className="size-4 shrink-0" />
-          <span>{copy.label}</span>
-        </div>
-
         <div className={`${styles.ticker} min-w-0 flex-1 overflow-hidden`} dir="ltr">
-          <div className={`${styles.track} h-full items-center ps-6`} aria-hidden="true">
+          <div className={`${styles.track} h-full items-center ps-6 sm:ps-8`} aria-hidden="true">
             <AyahContent copy={copy} />
             <AyahContent copy={copy} />
           </div>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon, PauseIcon, PlayIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
@@ -38,7 +38,15 @@ export function HomeHeroCarousel({
   const activeSlide = slides[activeIndex] ?? slides[0];
 
   useEffect(() => {
-    if (!playing || interactionPaused || slideCount < 2) return;
+    if (
+      !playing ||
+      interactionPaused ||
+      slideCount < 2 ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % slideCount);
     }, slideIntervalMs);
@@ -46,14 +54,6 @@ export function HomeHeroCarousel({
   }, [interactionPaused, playing, slideCount]);
 
   if (!activeSlide) return null;
-
-  function showPrevious() {
-    setActiveIndex((current) => (current - 1 + slideCount) % slideCount);
-  }
-
-  function showNext() {
-    setActiveIndex((current) => (current + 1) % slideCount);
-  }
 
   return (
     <section
@@ -117,7 +117,15 @@ export function HomeHeroCarousel({
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-sidebar/95 via-sidebar/75 to-sidebar/10 rtl:bg-gradient-to-l" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-sidebar/65 via-transparent to-transparent" />
 
-      <div className="mx-auto flex w-full max-w-7xl flex-1 items-center px-4 pb-28 pt-14 sm:px-6 sm:pb-32 lg:px-8 lg:py-24">
+      <button
+        type="button"
+        onClick={() => setPlaying((current) => !current)}
+        className="sr-only focus:absolute focus:start-4 focus:top-4 focus:z-30 focus:not-sr-only focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:shadow-lg"
+      >
+        {playing ? labels.pause : labels.play}
+      </button>
+
+      <div className="mx-auto flex w-full max-w-7xl flex-1 items-center px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <div key={activeIndex} className="flex max-w-3xl flex-col items-start gap-7 text-start motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700">
           <span className="sr-only">{activeSlide.imageAlt}</span>
           <h1 className="max-w-3xl font-heading text-4xl leading-[1.07] font-bold tracking-[-0.045em] text-white drop-shadow-sm sm:text-5xl lg:text-6xl xl:text-7xl">
@@ -138,37 +146,6 @@ export function HomeHeroCarousel({
                 {exploreCoursesLabel}
                 <ArrowRightIcon data-icon="inline-end" className="rtl:rotate-180" />
               </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute inset-x-0 bottom-0">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 pb-6 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:pb-8 lg:px-8">
-          <div className="flex items-center gap-2" aria-label={`${activeIndex + 1} / ${slideCount}`}>
-            {slides.map((slide, index) => (
-              <button
-                key={slide.title}
-                type="button"
-                aria-label={`${labels.goToSlide} ${index + 1}`}
-                aria-current={index === activeIndex ? "true" : undefined}
-                onClick={() => setActiveIndex(index)}
-                className={cn(
-                  "h-1.5 rounded-full shadow-sm transition-[width,background-color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar",
-                  index === activeIndex ? "w-10 bg-gold" : "w-5 bg-white/45 hover:bg-white/75"
-                )}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <Button type="button" variant="outline" size="icon" className="border-white/35 bg-sidebar/35 text-white backdrop-blur-md hover:bg-white hover:text-sidebar" onClick={showPrevious} aria-label={labels.previous}>
-              <ChevronLeftIcon className="rtl:rotate-180" />
-            </Button>
-            <Button type="button" variant="outline" size="icon" className="border-white/35 bg-sidebar/35 text-white backdrop-blur-md hover:bg-white hover:text-sidebar" onClick={() => setPlaying((current) => !current)} aria-label={playing ? labels.pause : labels.play}>
-              {playing ? <PauseIcon /> : <PlayIcon />}
-            </Button>
-            <Button type="button" variant="outline" size="icon" className="border-white/35 bg-sidebar/35 text-white backdrop-blur-md hover:bg-white hover:text-sidebar" onClick={showNext} aria-label={labels.next}>
-              <ChevronRightIcon className="rtl:rotate-180" />
             </Button>
           </div>
         </div>
