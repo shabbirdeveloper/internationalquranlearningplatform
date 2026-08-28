@@ -1,6 +1,7 @@
 import { BookOpenIcon, ClipboardListIcon, UserRoundCheckIcon } from "lucide-react";
 
 import { HomeHeroCarousel } from "@/components/public-site/home-hero-carousel";
+import { QuranAyahTicker } from "@/components/public-site/quran-ayah-ticker";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
 
@@ -30,6 +31,8 @@ export function HomeHero({ locale, dictionary }: { locale: Locale; dictionary: D
         bookTrialLabel={dictionary.common.bookTrial}
         exploreCoursesLabel={dictionary.common.exploreCourses}
       />
+
+      <QuranAyahTicker locale={locale} />
 
       <section id="how-it-works" className="border-b border-border/70 bg-warm-surface">
         <h2 className="sr-only">{dictionary.home.howItWorksTitle}</h2>
