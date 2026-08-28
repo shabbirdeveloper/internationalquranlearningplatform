@@ -204,8 +204,47 @@ html[dir="rtl"] .font-heading {
   }
 
   .public-site [data-slot="card"] {
+    border-color: var(--sidebar-border) !important;
     border-radius: 1.25rem;
+    background-color: var(--sidebar) !important;
+    background-image: url("/images/islamic-card-pattern-on-dark.webp");
+    color: var(--sidebar-foreground) !important;
     box-shadow: 0 18px 45px -32px oklch(0.19 0.04 248 / 36%);
+  }
+
+  .public-site [data-slot="card"] [data-slot="card-title"],
+  .public-site [data-slot="card"] .text-foreground,
+  .public-site [data-slot="card"] [data-slot="field-label"],
+  .public-site [data-slot="card"] label {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .public-site [data-slot="card"] [data-slot="card-description"],
+  .public-site [data-slot="card"] .text-muted-foreground {
+    color: color-mix(in oklab, var(--sidebar-foreground) 72%, transparent) !important;
+  }
+
+  .public-site [data-slot="card"] .text-primary {
+    color: var(--gold) !important;
+  }
+
+  .public-site [data-slot="card"] [data-slot="card-header"],
+  .public-site [data-slot="card"] [data-slot="card-content"] {
+    border-color: var(--sidebar-border) !important;
+  }
+
+  .public-site [data-slot="card"] [data-slot="card-footer"] {
+    border-color: var(--sidebar-border) !important;
+    background-color: color-mix(in oklab, var(--sidebar-accent) 68%, transparent) !important;
+  }
+
+  .public-site [data-slot="card"] :where([data-slot="input"], [data-slot="textarea"], select, [data-slot="select-trigger"]) {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+  }
+
+  .public-site [data-slot="card"] .bg-background {
+    color: var(--foreground) !important;
   }
 
   .public-site [data-slot="card"][data-premium-interactive="true"] {
