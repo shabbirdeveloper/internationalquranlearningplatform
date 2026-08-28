@@ -51,16 +51,7 @@ export default async function AboutPage({
 
   return (
     <main id="main-content" dir="ltr">
-      <section className="relative isolate overflow-hidden bg-primary text-primary-foreground">
-        <Image
-          src="/images/shia-taleem-hero-learning.png"
-          alt="A student learning the Quran in a live online lesson"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-primary/30" />
+      <section className="public-page-hero-pattern relative isolate overflow-hidden border-b border-sidebar-border text-sidebar-foreground">
         <div className="relative mx-auto flex min-h-[34rem] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold">
@@ -69,7 +60,7 @@ export default async function AboutPage({
             <h1 className="mt-5 font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-6xl lg:text-7xl">
               {copy.hero.title}
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-primary-foreground/80 sm:text-lg">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-sidebar-foreground/80 sm:text-lg">
               {copy.hero.description}
             </p>
           </div>

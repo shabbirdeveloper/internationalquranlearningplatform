@@ -55,13 +55,13 @@ export function PricingPlans({ locale, data }: { locale: Locale; data: PricingDa
 
   return (
     <main id="main-content">
-      <section className="relative overflow-hidden bg-warm-surface px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-16">
+      <section className="public-page-hero-pattern relative overflow-hidden border-b border-sidebar-border px-4 py-14 text-sidebar-foreground sm:px-6 sm:py-16 lg:px-8 lg:py-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
-          <span className="rounded-full bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Fee structure</span>
-          <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-sidebar sm:text-5xl">{data.content.heading}<span className="mt-1 block text-primary">{data.content.highlighted_heading}</span></h1>
-          <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">{data.content.subtitle}</p>
-          <p className="max-w-3xl border-t border-gold/50 pt-4 text-sm leading-7 text-foreground/75 sm:text-base">{data.content.intro_text}</p>
+          <span className="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold ring-1 ring-white/10">Fee structure</span>
+          <h1 className="font-heading text-4xl font-semibold tracking-[-0.045em] text-sidebar-foreground sm:text-5xl">{data.content.heading}<span className="mt-1 block text-gold">{data.content.highlighted_heading}</span></h1>
+          <p className="max-w-2xl text-base leading-7 text-sidebar-foreground/80 sm:text-lg">{data.content.subtitle}</p>
+          <p className="max-w-3xl border-t border-gold/50 pt-4 text-sm leading-7 text-sidebar-foreground/75 sm:text-base">{data.content.intro_text}</p>
         </div>
       </section>
       <section aria-label="Monthly learning packages" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
