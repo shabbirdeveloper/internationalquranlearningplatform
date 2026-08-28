@@ -59,6 +59,7 @@ export function HomeHeroCarousel({
     <section
       aria-label={labels.label}
       aria-roledescription="carousel"
+      data-home-hero
       className="relative isolate flex min-h-[clamp(38rem,calc(100svh-8rem),52rem)] w-full overflow-hidden border-b border-border/70 bg-sidebar"
       onMouseEnter={() => setInteractionPaused(true)}
       onMouseLeave={() => setInteractionPaused(false)}
@@ -69,6 +70,29 @@ export function HomeHeroCarousel({
         }
       }}
     >
+      <div className="home-entrance-overlay pointer-events-none absolute inset-0 z-30 overflow-hidden" aria-hidden="true">
+        <div className="home-entrance-panel home-entrance-panel-start" />
+        <div className="home-entrance-panel home-entrance-panel-end" />
+        <div className="home-entrance-brand">
+          <span className="rounded-3xl bg-white/95 p-2 shadow-2xl shadow-black/20 ring-1 ring-white/30">
+            <span className="relative block size-20">
+              <Image
+                src="/shia-taleem-logo.png"
+                alt=""
+                fill
+                sizes="80px"
+                className="object-contain"
+              />
+            </span>
+          </span>
+          <span className="font-heading text-sm font-semibold tracking-[0.24em] text-white">
+            SHIA TALEEM
+          </span>
+        </div>
+      </div>
+
+      <div className="home-hero-sheen pointer-events-none absolute inset-y-0 z-20 w-1/3" aria-hidden="true" />
+
       <div className="absolute inset-0 -z-20">
         {slides.map((slide, index) => {
           const media = heroMedia[index] ?? heroMedia[0];
@@ -84,7 +108,7 @@ export function HomeHeroCarousel({
               className={cn(
                 "object-cover motion-safe:transition-[opacity,transform] motion-safe:duration-1000 motion-safe:ease-out motion-reduce:transition-none",
                 media.position,
-                index === activeIndex ? "scale-100 opacity-100" : "scale-[1.025] opacity-0"
+                index === activeIndex ? "home-hero-active-media scale-100 opacity-100" : "scale-[1.025] opacity-0"
               )}
             />
           );

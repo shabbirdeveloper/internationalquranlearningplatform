@@ -300,6 +300,59 @@ html[dir="rtl"] .font-heading {
     transform: translate3d(0, 0, 0) scale(1);
   }
 
+  .public-site main[data-home-page] > section:nth-of-type(odd)[data-scroll-reveal="pending"] {
+    transform: translate3d(1.5rem, 1.25rem, 0) scale(0.995);
+  }
+
+  .public-site main[data-home-page] > section:nth-of-type(even)[data-scroll-reveal="pending"] {
+    transform: translate3d(-1.5rem, 1.25rem, 0) scale(0.995);
+  }
+
+  .home-entrance-overlay {
+    animation: home-entrance-finish 1.55s both;
+  }
+
+  .home-entrance-panel {
+    position: absolute;
+    inset-block: 0;
+    width: 50.1%;
+    background:
+      radial-gradient(circle at center, color-mix(in oklab, var(--primary) 45%, transparent), transparent 58%),
+      var(--sidebar);
+  }
+
+  .home-entrance-panel-start {
+    left: 0;
+    animation: home-entrance-panel-start 1.2s 320ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  }
+
+  .home-entrance-panel-end {
+    right: 0;
+    animation: home-entrance-panel-end 1.2s 320ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  }
+
+  .home-entrance-brand {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    animation: home-entrance-brand 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .home-hero-sheen {
+    inset-inline-start: -45%;
+    background: linear-gradient(90deg, transparent, oklch(0.88 0.12 86 / 16%), transparent);
+    transform: skewX(-14deg);
+    animation: home-hero-sheen 1.25s 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  [data-home-hero] .home-hero-active-media {
+    animation: home-hero-media-settle 8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   .public-site [data-premium-hover="media"] img {
     transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -460,6 +513,76 @@ html[dir="rtl"] .font-heading {
   }
 }
 
+@keyframes home-entrance-finish {
+  0%,
+  92% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+@keyframes home-entrance-panel-start {
+  0%,
+  38% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-102%);
+  }
+}
+
+@keyframes home-entrance-panel-end {
+  0%,
+  38% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(102%);
+  }
+}
+
+@keyframes home-entrance-brand {
+  0% {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.9);
+  }
+  24%,
+  54% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  82%,
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(1.05);
+  }
+}
+
+@keyframes home-hero-sheen {
+  0% {
+    inset-inline-start: -45%;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    inset-inline-start: 115%;
+    opacity: 0;
+  }
+}
+
+@keyframes home-hero-media-settle {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -472,5 +595,10 @@ html[dir="rtl"] .font-heading {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .home-entrance-overlay,
+  .home-hero-sheen {
+    display: none;
   }
 }

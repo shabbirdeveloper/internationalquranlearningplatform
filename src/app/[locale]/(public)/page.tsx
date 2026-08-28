@@ -21,7 +21,7 @@ export default async function HomePage({
   const dictionary = await getDictionary(localeValue);
 
   return (
-    <main id="main-content">
+    <main id="main-content" data-home-page className="overflow-x-clip">
       <HomeHero locale={localeValue} dictionary={dictionary} />
       <HomeLearning locale={localeValue} dictionary={dictionary} />
       <HomeTrust locale={localeValue} dictionary={dictionary} />
