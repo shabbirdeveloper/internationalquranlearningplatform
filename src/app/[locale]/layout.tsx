@@ -43,6 +43,23 @@ export const metadata: Metadata = {
   },
   description:
     "Live online Quran and Shia Islamic education with verified teachers, flexible schedules, and family progress visibility.",
+  icons: {
+    icon: [
+      {
+        url: "/shia-taleem-logo.png",
+        type: "image/png",
+        sizes: "1254x1254",
+      },
+    ],
+    shortcut: "/shia-taleem-logo.png",
+    apple: [
+      {
+        url: "/shia-taleem-logo.png",
+        type: "image/png",
+        sizes: "1254x1254",
+      },
+    ],
+  },
 };
 
 export function generateStaticParams() {
