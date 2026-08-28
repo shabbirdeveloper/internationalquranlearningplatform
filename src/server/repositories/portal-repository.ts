@@ -3,6 +3,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
+import { courseFromDatabaseRow, type Course } from "@/content/public-pages";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { UserAccess } from "@/server/authorization/permissions";
 
@@ -119,6 +120,7 @@ export type TeacherProfile = z.infer<typeof teacherRowSchema>;
 export type TeacherAvailability = z.infer<typeof availabilityRowSchema>;
 export type TeacherDocument = z.infer<typeof teacherDocumentRowSchema>;
 export type Branch = z.infer<typeof branchRowSchema>;
+export type AdminCourse = Course & { id: string; isPublished: boolean };
 
 export type ParentLink = z.infer<typeof parentLinkRowSchema> & {
   studentName: string | null;
@@ -394,6 +396,23 @@ export async function getAdminSummary() {
     pendingParentLinks: links.error ? null : links.count,
     teacherApplications: applications.error ? null : applications.count,
   };
+}
+
+export async function getAdminCourses(): Promise<AdminCourse[]> {
+  const supabase = await getClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .is("deleted_at", null)
+    .order("title");
+  if (error || !data) return [];
+  return data.flatMap((row) => {
+    const course = courseFromDatabaseRow(row as Record<string, unknown>);
+    const id = typeof row.id === "string" ? row.id : "";
+    if (!course || !id) return [];
+    return [{ ...course, id, isPublished: row.is_published === true }];
+  });
 }
 
 export async function getPendingParentLinks() {

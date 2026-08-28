@@ -65,10 +65,11 @@ export function AdminDashboard({
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_20rem]">
         <Card>
           <CardHeader><CardTitle className="text-xl">{copy.adminPeopleTitle}</CardTitle><CardDescription>{dictionary.portal.emptyDescription}</CardDescription></CardHeader>
-          <CardContent className="grid gap-3 sm:grid-cols-3">
+          <CardContent className="grid gap-3 sm:grid-cols-2">
             <Button asChild variant="outline" className="h-auto justify-start py-4"><Link href={`/${locale}/admin/parent-links`}><Link2Icon data-icon="inline-start" />{copy.parentLinkReviews}</Link></Button>
             <Button asChild variant="outline" className="h-auto justify-start py-4"><Link href={`/${locale}/admin/teachers`}><UserRoundCheckIcon data-icon="inline-start" />{copy.teacherApplicationReviews}</Link></Button>
             <Button asChild variant="outline" className="h-auto justify-start py-4"><Link href={`/${locale}/admin/staff`}><UsersIcon data-icon="inline-start" />{copy.staffDirectory}</Link></Button>
+            <Button asChild variant="outline" className="h-auto justify-start py-4"><Link href={`/${locale}/admin/courses`}><GraduationCapIcon data-icon="inline-start" />Manage courses</Link></Button>
           </CardContent>
         </Card>
         <Card>

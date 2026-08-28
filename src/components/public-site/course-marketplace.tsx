@@ -43,87 +43,10 @@ import {
 import type { Course, PublicCopy } from "@/content/public-pages";
 import type { Locale } from "@/i18n/config";
 
-type CourseCover = {
-  src: string;
-  surfaceClassName?: string;
-  imageClassName: string;
-};
-
 const photoCoverClass =
   "object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out group-hover:scale-[1.035]";
 const illustrationCoverClass =
   "object-contain p-7 motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out group-hover:scale-[1.045] sm:p-8";
-
-const defaultCourseCover: CourseCover = {
-  src: "/images/hero-online-class.png",
-  imageClassName: `${photoCoverClass} object-center`,
-};
-
-const courseCovers: Record<string, CourseCover> = {
-  "quran-foundations": {
-    src: "/images/hero-online-class.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "quran-reading": {
-    src: "/images/shia-taleem-hero-learning.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "quran-with-tajweed": {
-    src: "/images/shia-taleem-female-teacher.png",
-    imageClassName: `${photoCoverClass} object-[center_38%]`,
-  },
-  "quran-memorization": {
-    src: "/images/quran-trial-art.png",
-    surfaceClassName: "bg-warm-surface",
-    imageClassName: illustrationCoverClass,
-  },
-  "quran-with-tafseer": {
-    src: "/images/shia-taleem-hero-learning.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "nahjul-balagha": {
-    src: "/images/shia-taleem-female-teacher.png",
-    imageClassName: `${photoCoverClass} object-[center_40%]`,
-  },
-  "sahifa-sajjadiya": {
-    src: "/images/quran-trial-art.png",
-    surfaceClassName: "bg-warm-surface",
-    imageClassName: illustrationCoverClass,
-  },
-  "islamic-beliefs": {
-    src: "/images/hero-online-class.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "shia-fiqh": {
-    src: "/images/shia-taleem-female-teacher.png",
-    imageClassName: `${photoCoverClass} object-[center_38%]`,
-  },
-  "akhlaq-character": {
-    src: "/images/shia-taleem-hero-learning.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "seerah-prophet": {
-    src: "/images/hero-online-class.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "lives-of-ahlul-bayt": {
-    src: "/images/shia-taleem-hero-learning.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-  "arabic-for-quran": {
-    src: "/images/shia-taleem-female-teacher.png",
-    imageClassName: `${photoCoverClass} object-[center_38%]`,
-  },
-  "duas-ziyarat": {
-    src: "/images/quran-trial-art.png",
-    surfaceClassName: "bg-warm-surface",
-    imageClassName: illustrationCoverClass,
-  },
-  "islamic-studies-children": {
-    src: "/images/hero-online-class.png",
-    imageClassName: `${photoCoverClass} object-center`,
-  },
-};
 
 function values(courses: Course[], key: "category" | "level" | "ageGroup" | "classType") {
   return [...new Set(courses.map((course) => course[key]))];
@@ -138,7 +61,7 @@ function CourseCard({
   course: Course;
   viewCourseLabel: string;
 }) {
-  const cover = courseCovers[course.slug] ?? defaultCourseCover;
+  const illustration = course.coverImage.includes("quran-trial-art");
   const metadata = [
     { label: course.ageGroup, icon: UsersIcon },
     { label: course.classType, icon: MonitorPlayIcon },
@@ -154,14 +77,14 @@ function CourseCard({
     >
       <div
         data-course-cover
-        className={`relative aspect-[16/9] overflow-hidden ${cover.surfaceClassName ?? "bg-muted"}`}
+        className={`relative aspect-[16/9] overflow-hidden ${illustration ? "bg-warm-surface" : "bg-muted"}`}
       >
         <Image
-          src={cover.src}
+          src={course.coverImage}
           alt={`${course.title} course`}
           fill
           sizes="(min-width: 1280px) 384px, (min-width: 768px) 50vw, 100vw"
-          className={cover.imageClassName}
+          className={illustration ? illustrationCoverClass : `${photoCoverClass} object-center`}
         />
         <span
           aria-hidden="true"

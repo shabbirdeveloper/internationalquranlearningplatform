@@ -12,6 +12,19 @@ export type Course = {
   languages: string[];
   outcomes: string[];
   syllabus: string[];
+  coverImage: string;
+  detailImage: string;
+  methodImage: string;
+  overviewHeading: string;
+  description: string;
+  guidanceHeading: string;
+  guidanceBody: string;
+  audienceHeading: string;
+  audienceBody: string;
+  benefitsHeading: string;
+  benefits: string[];
+  methodHeading: string;
+  methodBody: string;
 };
 
 const courseBlueprints = [
@@ -32,19 +45,165 @@ const courseBlueprints = [
   ["islamic-studies-children", "Islamic Studies for Children", "A warm, structured introduction to beliefs, worship, history, and manners.", "Islamic Studies", "Beginner", "Children", "One-to-one", "30 minutes"],
 ] as const;
 
-export const courses: Course[] = courseBlueprints.map(([slug, title, summary, category, level, ageGroup, classType, duration]) => ({
-  slug,
-  title,
-  summary,
-  category,
-  level,
-  ageGroup,
-  classType,
-  duration,
-  languages: ["English", "Urdu", "Arabic"],
-  outcomes: ["A plan matched to the learner's current level", "Live correction and teacher feedback", "A clear route to the next learning milestone"],
-  syllabus: ["Level and goal assessment", "Guided live lessons", "Practice and revision", "Progress review"],
-}));
+const courseImages: Record<string, [string, string, string]> = {
+  "quran-foundations": ["/images/hero-online-class.png", "/images/shia-taleem-hero-learning.png", "/images/shia-taleem-female-teacher.png"],
+  "quran-reading": ["/images/shia-taleem-hero-learning.png", "/images/hero-online-class.png", "/images/shia-taleem-female-teacher.png"],
+  "quran-with-tajweed": ["/images/shia-taleem-female-teacher.png", "/images/shia-taleem-hero-learning.png", "/images/hero-online-class.png"],
+  "quran-memorization": ["/images/quran-trial-art.png", "/images/hero-online-class.png", "/images/shia-taleem-hero-learning.png"],
+  "quran-with-tafseer": ["/images/shia-taleem-hero-learning.png", "/images/shia-taleem-female-teacher.png", "/images/hero-online-class.png"],
+  "nahjul-balagha": ["/images/shia-taleem-female-teacher.png", "/images/hero-online-class.png", "/images/shia-taleem-hero-learning.png"],
+  "sahifa-sajjadiya": ["/images/quran-trial-art.png", "/images/shia-taleem-hero-learning.png", "/images/shia-taleem-female-teacher.png"],
+  "islamic-beliefs": ["/images/hero-online-class.png", "/images/shia-taleem-female-teacher.png", "/images/shia-taleem-hero-learning.png"],
+  "shia-fiqh": ["/images/shia-taleem-female-teacher.png", "/images/hero-online-class.png", "/images/shia-taleem-hero-learning.png"],
+  "akhlaq-character": ["/images/shia-taleem-hero-learning.png", "/images/shia-taleem-female-teacher.png", "/images/hero-online-class.png"],
+  "seerah-prophet": ["/images/hero-online-class.png", "/images/shia-taleem-hero-learning.png", "/images/shia-taleem-female-teacher.png"],
+  "lives-of-ahlul-bayt": ["/images/shia-taleem-hero-learning.png", "/images/hero-online-class.png", "/images/shia-taleem-female-teacher.png"],
+  "arabic-for-quran": ["/images/shia-taleem-female-teacher.png", "/images/shia-taleem-hero-learning.png", "/images/hero-online-class.png"],
+  "duas-ziyarat": ["/images/quran-trial-art.png", "/images/shia-taleem-hero-learning.png", "/images/hero-online-class.png"],
+  "islamic-studies-children": ["/images/hero-online-class.png", "/images/shia-taleem-female-teacher.png", "/images/shia-taleem-hero-learning.png"],
+};
+
+type DetailCopy = Pick<Course, "overviewHeading" | "description" | "guidanceHeading" | "guidanceBody" | "audienceHeading" | "audienceBody" | "benefitsHeading" | "benefits" | "methodHeading" | "methodBody">;
+
+function createDetailCopy(title: string, summary: string, ageGroup: string, classType: string): DetailCopy {
+  return {
+    overviewHeading: `Begin a focused journey through ${title}`,
+    description: `${summary} This live course gives every learner a clear starting point, patient guidance, and a practical path toward confident progress. Lessons are adapted to the learner's current ability, pace, and long-term goals.`,
+    guidanceHeading: `${classType} guidance with a caring specialist`,
+    guidanceBody: `Each lesson is taught live, allowing the teacher to listen carefully, explain difficult ideas, correct mistakes respectfully, and adjust the lesson in the moment. Personal feedback and guided practice help learners build understanding without feeling rushed.`,
+    audienceHeading: `Who should join ${title}?`,
+    audienceBody: `This course is suitable for ${ageGroup.toLowerCase()} who want structured learning with a dependable teacher. Complete beginners can start with an assessment, while experienced learners can strengthen weak areas and continue from their present level.`,
+    benefitsHeading: `Benefits of the ${title} course`,
+    benefits: [
+      "A private learning plan shaped around the learner's level and goals",
+      "Patient live correction with time to ask questions and practise",
+      "Flexible international scheduling for families in different time zones",
+      "Regular revision and progress feedback to support steady improvement",
+      "A respectful, secure online environment for children and adults",
+    ],
+    methodHeading: `A clear method for lasting progress in ${title}`,
+    methodBody: `The program combines short explanations, teacher demonstration, guided practice, independent revision, and regular review. Each new milestone builds on what the learner can already do, so progress remains clear, achievable, and connected to everyday faith and practice.`,
+  };
+}
+
+const detailOverrides: Record<string, Partial<DetailCopy>> = {
+  "quran-memorization": {
+    overviewHeading: "Begin your journey to preserve the words of Allah",
+    description: "Build a strong, heartfelt connection with the Quran through a personal memorization plan designed for consistency, clarity, and spiritual growth. From the first lesson, the teacher considers the learner's pace, lifestyle, current memorization, and revision needs so every target remains steady and achievable.",
+    guidanceHeading: "One-to-one guidance for Quran memorization",
+    guidanceBody: "Every class gives the learner the teacher's full attention. The teacher listens to each passage, corrects recitation and Tajweed, identifies weak points, and recommends practical memorization techniques. Close guidance prevents small mistakes from becoming habits and helps the learner move forward with confidence.",
+    audienceHeading: "Who should join the Quran Memorization course?",
+    audienceBody: "The course welcomes complete beginners, learners returning after a break, and students who have already memorized portions of the Quran. Children, teenagers, and adults receive a curriculum matched to their pace, with realistic new-lesson and revision targets.",
+    benefitsHeading: "Benefits of Quran memorization with Shia Taleem",
+    benefits: [
+      "Supportive teaching, encouragement, and regular revision sessions",
+      "Integration of Shia duas, manners, and the ethics of the Ahlulbayt (a)",
+      "Continuous progress tracking through weekly listening and review",
+      "Private one-to-one learning suitable for children and adults",
+      "A lifelong relationship with the Quran built on love and understanding",
+    ],
+    methodHeading: "Daily review and regular testing for strong retention",
+    methodBody: "A balanced routine combines new memorization with structured revision. Short quizzes, listening checks, and teacher-led assessments reveal areas that need reinforcement, helping learners retain earlier passages while moving forward with accuracy and fluency.",
+  },
+  "duas-ziyarat": {
+    overviewHeading: "Learn the language of devotion with understanding",
+    description: "Develop confident recitation of selected duas and ziyarat while exploring their meaning, context, and spiritual lessons. The course connects accurate reading with reflection so learners can bring these treasured words into daily worship with greater presence.",
+    guidanceHeading: "Live recitation, translation, and reflection",
+    guidanceBody: "The teacher models each passage, listens to the learner, corrects pronunciation, and explains key words and themes in accessible language. Lessons make room for questions and connect the text with the teachings and example of the Ahlulbayt (a).",
+    audienceHeading: "Who should join Duas & Ziyarat?",
+    audienceBody: "This course suits children, teenagers, adults, new learners, and anyone who already recites but wants better pronunciation and deeper understanding. The starting text and pace are selected after a friendly level and goals review.",
+    benefitsHeading: "What learners gain from Duas & Ziyarat",
+    benefits: [
+      "More accurate Arabic pronunciation and confident recitation",
+      "Clear understanding of important vocabulary and central themes",
+      "Historical and devotional context for selected texts",
+      "A practical routine for reflection and regular recitation",
+      "Personal guidance in a respectful one-to-one setting",
+    ],
+    methodHeading: "A balanced approach to recitation and meaning",
+    methodBody: "Lessons move passage by passage through listening, repetition, correction, translation, and reflection. Revision is built into the plan so the learner retains both the words and their message, then confidently applies the learning in personal and family worship.",
+  },
+};
+
+type CourseBlueprint = readonly [string, string, string, string, string, string, string, string];
+
+function buildCourse([slug, title, summary, category, level, ageGroup, classType, duration]: CourseBlueprint): Course {
+  const [coverImage, detailImage, methodImage] = courseImages[slug] ?? ["/images/hero-online-class.png", "/images/shia-taleem-hero-learning.png", "/images/shia-taleem-female-teacher.png"];
+  const details = { ...createDetailCopy(title, summary, ageGroup, classType), ...detailOverrides[slug] };
+  return {
+    slug,
+    title,
+    summary,
+    category,
+    level,
+    ageGroup,
+    classType,
+    duration,
+    languages: ["English", "Urdu", "Arabic"],
+    outcomes: [`Confident progress in ${title}`, "Live correction and personal teacher feedback", "A practical plan for revision and the next learning milestone"],
+    syllabus: ["Level and goals assessment", "Teacher demonstration and guided learning", "Supported practice and revision", "Progress review and next-step planning"],
+    coverImage,
+    detailImage,
+    methodImage,
+    ...details,
+  };
+}
+
+export const courses: Course[] = courseBlueprints.map(buildCourse);
+
+function text(value: unknown, fallback: string): string {
+  return typeof value === "string" && value.trim() ? value.trim() : fallback;
+}
+
+function list(value: unknown, fallback: string[]): string[] {
+  if (!Array.isArray(value)) return fallback;
+  const items = value.filter((item): item is string => typeof item === "string" && item.trim().length > 0).map((item) => item.trim());
+  return items.length ? items : fallback;
+}
+
+export function courseFromDatabaseRow(row: Record<string, unknown>): Course | null {
+  const slug = text(row.slug, "");
+  const fallback = courses.find((course) => course.slug === slug);
+  const title = text(row.title, fallback?.title ?? "");
+  const summary = text(row.summary, fallback?.summary ?? "");
+  const category = text(row.category, fallback?.category ?? "");
+  const level = text(row.level, fallback?.level ?? "");
+  const ageGroup = text(row.age_group, fallback?.ageGroup ?? "");
+  const classType = text(row.class_type, fallback?.classType ?? "");
+  const durationMinutes = typeof row.duration_minutes === "number" ? row.duration_minutes : Number.parseInt(String(row.duration_minutes ?? ""), 10);
+  if (!slug || !title || !summary || !category || !level || !ageGroup || !classType || !Number.isFinite(durationMinutes)) return null;
+
+  const base = fallback ?? {
+    ...buildCourse([slug, title, summary, category, level, ageGroup, classType, `${durationMinutes} minutes`]),
+  };
+  return {
+    ...base,
+    slug,
+    title,
+    summary,
+    category,
+    level,
+    ageGroup,
+    classType,
+    duration: `${durationMinutes} minutes`,
+    languages: list(row.languages, base.languages),
+    outcomes: list(row.outcomes, base.outcomes),
+    syllabus: list(row.syllabus, base.syllabus),
+    coverImage: text(row.cover_image_url, base.coverImage),
+    detailImage: text(row.detail_image_url, base.detailImage),
+    methodImage: text(row.method_image_url, base.methodImage),
+    overviewHeading: text(row.overview_heading, base.overviewHeading),
+    description: text(row.description, base.description),
+    guidanceHeading: text(row.guidance_heading, base.guidanceHeading),
+    guidanceBody: text(row.guidance_body, base.guidanceBody),
+    audienceHeading: text(row.audience_heading, base.audienceHeading),
+    audienceBody: text(row.audience_body, base.audienceBody),
+    benefitsHeading: text(row.benefits_heading, base.benefitsHeading),
+    benefits: list(row.benefits, base.benefits),
+    methodHeading: text(row.method_heading, base.methodHeading),
+    methodBody: text(row.method_body, base.methodBody),
+  };
+}
 
 const en = {
   hero: {

@@ -26,6 +26,19 @@ const timeZoneSchema = z.string().trim().min(1).max(100).superRefine((value, con
   }
 });
 
+const courseListSchema = z
+  .string()
+  .transform((value) => value.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean))
+  .pipe(z.array(z.string().min(1).max(300)).min(1).max(20));
+
+const courseImageSchema = z
+  .string()
+  .trim()
+  .refine((value) => value === "" || /^\/images\/[A-Za-z0-9._/-]+$/.test(value), {
+    message: "Use a local image path beginning with /images/.",
+  })
+  .transform((value) => (value.length === 0 ? null : value));
+
 export const portalKindSchema = z.enum(["student", "parent", "teacher", "staff", "admin"]);
 
 export const coreProfileFormSchema = z.object({
@@ -166,6 +179,36 @@ export const reviewTeacherApplicationSchema = z.object({
     "suspended",
   ]),
   notes: optionalTrimmedText(5000),
+});
+
+export const courseAdminSchema = z.object({
+  id: z.string().uuid().optional(),
+  locale: z.enum(locales),
+  slug: z.string().trim().toLowerCase().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).max(100),
+  title: z.string().trim().min(2).max(180),
+  summary: z.string().trim().min(10).max(500),
+  category: z.string().trim().min(2).max(80),
+  level: z.string().trim().min(2).max(80),
+  ageGroup: z.string().trim().min(2).max(80),
+  classType: z.string().trim().min(2).max(80),
+  durationMinutes: z.coerce.number().int().min(15).max(180),
+  languages: courseListSchema,
+  coverImage: courseImageSchema,
+  detailImage: courseImageSchema,
+  methodImage: courseImageSchema,
+  overviewHeading: z.string().trim().min(5).max(240),
+  description: z.string().trim().min(20).max(5000),
+  guidanceHeading: z.string().trim().min(5).max(240),
+  guidanceBody: z.string().trim().min(20).max(5000),
+  audienceHeading: z.string().trim().min(5).max(240),
+  audienceBody: z.string().trim().min(20).max(5000),
+  benefitsHeading: z.string().trim().min(5).max(240),
+  benefits: courseListSchema,
+  methodHeading: z.string().trim().min(5).max(240),
+  methodBody: z.string().trim().min(20).max(5000),
+  outcomes: courseListSchema,
+  syllabus: courseListSchema,
+  isPublished: z.boolean(),
 });
 
 export type CoreProfileFormInput = z.input<typeof coreProfileFormSchema>;

@@ -6,6 +6,7 @@ import { PERMISSIONS, ROLE_KEYS } from "@/config/permissions";
 import {
   branchFormSchema,
   coreProfileFormSchema,
+  courseAdminSchema,
   parentLinkRequestSchema,
   parentProfileFormSchema,
   reviewParentLinkSchema,
@@ -331,4 +332,87 @@ export async function reviewTeacherApplicationAction(formData: FormData): Promis
     review_notes: parsed.data.notes,
   });
   refreshPortal(parsed.data.locale, "admin", "/teachers");
+}
+
+export async function saveCourseAction(
+  _previousState: PortalActionState,
+  formData: FormData
+): Promise<PortalActionState> {
+  const parsed = courseAdminSchema.safeParse({
+    id: String(formData.get("id") ?? "") || undefined,
+    locale: formData.get("locale"),
+    slug: formData.get("slug"),
+    title: formData.get("title"),
+    summary: formData.get("summary"),
+    category: formData.get("category"),
+    level: formData.get("level"),
+    ageGroup: formData.get("ageGroup"),
+    classType: formData.get("classType"),
+    durationMinutes: formData.get("durationMinutes"),
+    languages: formData.get("languages"),
+    coverImage: formData.get("coverImage"),
+    detailImage: formData.get("detailImage"),
+    methodImage: formData.get("methodImage"),
+    overviewHeading: formData.get("overviewHeading"),
+    description: formData.get("description"),
+    guidanceHeading: formData.get("guidanceHeading"),
+    guidanceBody: formData.get("guidanceBody"),
+    audienceHeading: formData.get("audienceHeading"),
+    audienceBody: formData.get("audienceBody"),
+    benefitsHeading: formData.get("benefitsHeading"),
+    benefits: formData.get("benefits"),
+    methodHeading: formData.get("methodHeading"),
+    methodBody: formData.get("methodBody"),
+    outcomes: formData.get("outcomes"),
+    syllabus: formData.get("syllabus"),
+    isPublished: formData.get("isPublished") === "on",
+  });
+  if (!parsed.success) return validationFailure(parsed.error);
+
+  const access = await authorize(PERMISSIONS.COURSES_MANAGE);
+  if (!access) return { errorCode: "UNAUTHORIZED" };
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) return { errorCode: "UNAVAILABLE" };
+
+  const course = parsed.data;
+  const values = {
+    slug: course.slug,
+    title: course.title,
+    summary: course.summary,
+    description: course.description,
+    category: course.category,
+    level: course.level,
+    age_group: course.ageGroup,
+    class_type: course.classType,
+    duration_minutes: course.durationMinutes,
+    languages: course.languages,
+    outcomes: course.outcomes,
+    syllabus: course.syllabus,
+    cover_image_url: course.coverImage,
+    detail_image_url: course.detailImage,
+    method_image_url: course.methodImage,
+    overview_heading: course.overviewHeading,
+    guidance_heading: course.guidanceHeading,
+    guidance_body: course.guidanceBody,
+    audience_heading: course.audienceHeading,
+    audience_body: course.audienceBody,
+    benefits_heading: course.benefitsHeading,
+    benefits: course.benefits,
+    method_heading: course.methodHeading,
+    method_body: course.methodBody,
+    is_published: course.isPublished,
+    published_at: course.isPublished ? new Date().toISOString() : null,
+    deleted_at: null,
+  };
+  const result = course.id
+    ? await supabase.from("courses").update(values).eq("id", course.id)
+    : await supabase.from("courses").insert(values);
+  if (result.error) return { errorCode: "DATABASE_ERROR" };
+
+  for (const supportedLocale of ["en", "ur", "ar"] as const) {
+    revalidatePath(getLocalizedPath(supportedLocale, "/courses"));
+    revalidatePath(getLocalizedPath(supportedLocale, `/courses/${course.slug}`));
+  }
+  refreshPortal(course.locale, "admin", "/courses");
+  return { success: true };
 }

@@ -80,6 +80,7 @@ function getRoleLabel(access: UserAccess, dictionary: Dictionary): string {
 
 function getPortalTitle(pathname: string, dictionary: Dictionary): string {
   if (pathname.includes("/admin/pricing")) return dictionary.portal.nav.pricing;
+  if (pathname.includes("/admin/courses")) return dictionary.portal.nav.courses;
   if (pathname.endsWith("/profile")) return dictionary.portal.phase2.profileTitle;
   if (pathname.includes("/parent-links")) return dictionary.portal.phase2.parentLinkReviews;
   if (pathname.includes("/teachers")) return dictionary.portal.phase2.teacherApplicationReviews;
@@ -113,7 +114,7 @@ function getNavItems(
       { label: dictionary.portal.nav.staffDirectory, href: `${basePath}/staff`, icon: UsersIcon, permission: PERMISSIONS.STAFF_MANAGE, available: true },
       { label: dictionary.portal.nav.requests, href: `${basePath}/requests`, icon: ClipboardCheckIcon, permission: PERMISSIONS.ADMISSIONS_READ, available: true },
       { label: dictionary.portal.nav.pricing, href: `${basePath}/pricing`, icon: CircleDollarSignIcon, permission: PERMISSIONS.CONTENT_MANAGE, available: true },
-      { label: dictionary.portal.nav.academics, href: basePath, icon: BookOpenIcon, permission: PERMISSIONS.COURSES_READ },
+      { label: dictionary.portal.nav.courses, href: `${basePath}/courses`, icon: BookOpenIcon, permission: PERMISSIONS.COURSES_MANAGE, available: true },
       { label: dictionary.portal.nav.operations, href: basePath, icon: CalendarDaysIcon, permission: PERMISSIONS.SCHEDULING_READ },
       { label: dictionary.portal.nav.finance, href: basePath, icon: CircleDollarSignIcon, permission: PERMISSIONS.FINANCE_READ },
       { label: dictionary.portal.nav.content, href: basePath, icon: FileTextIcon, permission: PERMISSIONS.CONTENT_READ },

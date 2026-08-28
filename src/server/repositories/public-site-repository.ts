@@ -1,8 +1,40 @@
 import "server-only";
 
+import { courseFromDatabaseRow, courses, type Course } from "@/content/public-pages";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export type PublicTeacher = { teacher_user_id: string; slug: string; display_name: string; headline: string; biography: string; subjects: string[]; languages: string[]; age_groups: string[]; years_experience: number | null; availability_summary: string | null };
+
+export async function getPublicCourses(): Promise<Course[]> {
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) return courses;
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .eq("is_published", true)
+    .is("deleted_at", null)
+    .order("title");
+  if (error || !data?.length) return courses;
+  const catalog = data
+    .map((row) => courseFromDatabaseRow(row as Record<string, unknown>))
+    .filter((course): course is Course => course !== null);
+  return catalog.length ? catalog : courses;
+}
+
+export async function getPublicCourse(slug: string): Promise<Course | null> {
+  const fallback = courses.find((course) => course.slug === slug) ?? null;
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) return fallback;
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .eq("slug", slug)
+    .eq("is_published", true)
+    .is("deleted_at", null)
+    .maybeSingle();
+  if (error || !data) return fallback;
+  return courseFromDatabaseRow(data as Record<string, unknown>) ?? fallback;
+}
 
 export async function getPublicTeachers(): Promise<PublicTeacher[]> {
   const supabase = await createServerSupabaseClient();
