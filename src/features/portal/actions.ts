@@ -15,7 +15,7 @@ import {
   studentProfileFormSchema,
   teacherProfileFormSchema,
 } from "@/features/portal/schemas";
-import { getLocalizedPath, type Locale } from "@/i18n/config";
+import { getLocalizedPath, locales, type Locale } from "@/i18n/config";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getCurrentUserAccess } from "@/server/authorization/access";
 import { hasPermission, type UserAccess } from "@/server/authorization/permissions";
@@ -409,7 +409,7 @@ export async function saveCourseAction(
     : await supabase.from("courses").insert(values);
   if (result.error) return { errorCode: "DATABASE_ERROR" };
 
-  for (const supportedLocale of ["en", "ur", "ar"] as const) {
+  for (const supportedLocale of locales) {
     revalidatePath(getLocalizedPath(supportedLocale, "/courses"));
     revalidatePath(getLocalizedPath(supportedLocale, `/courses/${course.slug}`));
   }

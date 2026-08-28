@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const localeSchema = z.enum(["en", "ur", "ar"]);
+const localeSchema = z.enum(["en", "ur", "ar", "fa"]);
 const imagePathSchema = z.string().trim().min(1, "Add an image path or URL.").max(500);
 const slugSchema = z.string().trim().min(3).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase letters, numbers, and hyphens.");
 
@@ -40,4 +40,3 @@ export const contentCommandSchema = z.object({
   portalLocale: localeSchema,
   id: z.string().uuid(),
 });
-

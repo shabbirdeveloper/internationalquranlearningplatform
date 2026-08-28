@@ -31,6 +31,14 @@ const footerFallback: Record<Locale, Dictionary["common"]["footer"]> = {
     freeTrial: "حصة تجريبية مجانية",
     contactAcademy: "تواصل مع الأكاديمية",
   },
+  fa: {
+    resources: "منابع دانش‌آموزان",
+    howItWorks: "روش کار",
+    learningPlans: "برنامه‌های آموزشی",
+    safeguarding: "حفاظت از دانش‌آموزان",
+    freeTrial: "جلسه آزمایشی رایگان",
+    contactAcademy: "تماس با آکادمی",
+  },
 };
 
 export function PublicFooter({

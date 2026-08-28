@@ -14,7 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import type { Locale, TextDirection } from "@/i18n/config";
+import { locales, type Locale, type TextDirection } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
 
 export function PublicMobileNav({
@@ -57,10 +57,10 @@ export function PublicMobileNav({
         </nav>
         <div className="mt-auto flex flex-col gap-2 p-4">
           <div
-            className="grid grid-cols-3 gap-1 rounded-lg border p-1"
+            className="grid grid-cols-4 gap-1 rounded-lg border p-1"
             aria-label={dictionary.common.language}
           >
-            {(["en", "ur", "ar"] as const).map((language) => (
+            {locales.map((language) => (
               <Button
                 key={language}
                 variant={language === locale ? "secondary" : "ghost"}

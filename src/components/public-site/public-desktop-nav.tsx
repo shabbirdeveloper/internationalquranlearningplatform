@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import type { Locale } from "@/i18n/config";
+import { locales, type Locale } from "@/i18n/config";
 import type { NavItem } from "@/i18n/types";
 
 function switchLocale(pathname: string, locale: Locale) {
@@ -56,7 +56,7 @@ export function PublicLanguageSwitcher({
       className="flex items-center rounded-lg border border-border/80 bg-muted/55 p-0.5"
       aria-label={label}
     >
-      {(["en", "ur", "ar"] as const).map((language) => (
+      {locales.map((language) => (
         <Button
           key={language}
           variant={language === locale ? "secondary" : "ghost"}

@@ -13,6 +13,7 @@ const countryUiCopy: Record<Locale, { select: string; loading: string; dialCode:
   en: { select: "Select a country", loading: "Loading countries…", dialCode: "Country calling code" },
   ur: { select: "ملک منتخب کریں", loading: "ممالک لوڈ ہو رہے ہیں…", dialCode: "ملکی فون کوڈ" },
   ar: { select: "اختر البلد", loading: "جارٍ تحميل البلدان…", dialCode: "رمز الاتصال الدولي" },
+  fa: { select: "کشور را انتخاب کنید", loading: "در حال بارگذاری کشورها…", dialCode: "پیش‌شماره کشور" },
 };
 
 let countryRequest: Promise<CountryOption[]> | null = null;

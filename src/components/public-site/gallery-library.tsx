@@ -5,12 +5,16 @@ import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ManagedContentImage } from "@/components/public-site/managed-content-image";
+import type { Locale } from "@/i18n/config";
 import type { GalleryItem } from "@/server/repositories/content-library-repository";
 
-export function GalleryLibrary({ items }: { items: GalleryItem[] }) {
-  const categories = useMemo(() => ["All", ...Array.from(new Set(items.map((item) => item.category)))], [items]);
-  const [category, setCategory] = useState("All");
-  const filtered = category === "All" ? items : items.filter((item) => item.category === category);
+const labels = { en: { all: "All", empty: "No moments in this category yet" }, ur: { all: "تمام", empty: "اس زمرے میں ابھی کوئی تصویر نہیں" }, ar: { all: "الكل", empty: "لا توجد لحظات في هذه الفئة بعد" }, fa: { all: "همه", empty: "هنوز تصویری در این دسته وجود ندارد" } } as const;
+
+export function GalleryLibrary({ items, locale }: { items: GalleryItem[]; locale: Locale }) {
+  const allLabel = labels[locale].all;
+  const categories = useMemo(() => [allLabel, ...Array.from(new Set(items.map((item) => item.category)))], [allLabel, items]);
+  const [category, setCategory] = useState<string>(allLabel);
+  const filtered = category === allLabel ? items : items.filter((item) => item.category === category);
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
@@ -27,7 +31,7 @@ export function GalleryLibrary({ items }: { items: GalleryItem[] }) {
             <p className="mt-2 max-w-xl text-sm leading-6 text-sidebar-foreground/75">{item.caption}</p>
           </div>
         </article>)}
-      </div> : <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed text-center"><ImagesIcon className="size-10 text-muted-foreground" /><h2 className="mt-4 font-heading text-2xl font-semibold">No moments in this category yet</h2></div>}
+      </div> : <div className="flex min-h-72 flex-col items-center justify-center rounded-3xl border border-dashed text-center"><ImagesIcon className="size-10 text-muted-foreground" /><h2 className="mt-4 font-heading text-2xl font-semibold">{labels[locale].empty}</h2></div>}
     </section>
   );
 }

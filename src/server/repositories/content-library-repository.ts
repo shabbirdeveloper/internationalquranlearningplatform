@@ -110,15 +110,49 @@ const fallbackGallery: Omit<GalleryItem, "locale">[] = [
   { id: "fallback-gallery-4", title: "Learning with the Quran", caption: "Structured practice helps reading become fluent, accurate, and confident.", category: "Quran studies", image_url: "/images/quran-trial-art.png", image_alt: "An open Quran used during a lesson", is_featured: false, is_published: true, published_at: "2026-08-12T08:00:00.000Z", display_order: 40, deleted_at: null, created_at: "2026-08-12T08:00:00.000Z", updated_at: "2026-08-12T08:00:00.000Z" },
 ];
 
+const farsiPostCopy: Record<string, Pick<BlogPost, "title" | "excerpt" | "body" | "category" | "cover_image_alt" | "author_name">> = {
+  "building-a-meaningful-quran-routine": {
+    title: "ساختن یک برنامه معنادار برای قرآن در خانه",
+    excerpt: "روشی آرام و عملی برای تبدیل آموزش قرآن به بخشی از زندگی روزمره خانواده.",
+    body: "یک برنامه معنادار قرآنی با استمرار آغاز می‌شود، نه با فشار. زمانی آرام و قابل تکرار انتخاب کنید، فضای یادگیری را آماده سازید و با هدفی واقع‌بینانه شروع کنید.\n\nجلسات کوتاه و متمرکز معمولاً عادت‌های قوی‌تری از کلاس‌های طولانی و پراکنده می‌سازند. استاد دلسوز به دانش‌آموز کمک می‌کند روخوانی، اصلاح، فهم و مرور را بدون خستگی متعادل کند.\n\nخانواده با تشویق تلاش، گوش دادن صبورانه و حفظ برنامه منظم می‌تواند از پیشرفت حمایت کند. این گام‌های کوچک به‌تدریج اعتماد و پیوندی ماندگار با قرآن می‌سازند.",
+    category: "راهنمای یادگیری",
+    cover_image_alt: "دانش‌آموز در حال یادگیری آنلاین قرآن از خانه",
+    author_name: "گروه آموزشی SHIA TALEEM",
+  },
+  "prepare-for-your-first-online-quran-lesson": {
+    title: "چگونه برای نخستین کلاس آنلاین قرآن آماده شویم",
+    excerpt: "چند گام ساده برای یک جلسه نخست آرام، متمرکز و مفید با استاد.",
+    body: "نخستین جلسه فرصتی است تا استاد سطح فعلی، هدف‌ها و سرعت مناسب شما را بشناسد. پیش از شروع، قرآن، دفتر یادداشت و دستگاهی مطمئن آماده کنید.\n\nدر محیطی آرام با نور مناسب بنشینید و میکروفن را آزمایش کنید. نگران اشتباه‌ها نباشید؛ این جلسه برای یافتن بهترین نقطه شروع و ساختن برنامه‌ای متناسب با شماست.\n\nپس از کلاس، یک هدف کوچک برای تمرین بنویسید و زمان جلسه بعد را تأیید کنید. شروع روشن، پیشرفت منظم را آسان‌تر می‌کند.",
+    category: "شروع یادگیری",
+    cover_image_alt: "دانش‌آموز در حال آماده شدن برای کلاس آنلاین قرآن",
+    author_name: "پشتیبانی دانش‌آموزان SHIA TALEEM",
+  },
+  "tajweed-with-confidence": {
+    title: "یادگیری تجوید با اعتماد و صبر",
+    excerpt: "چرا اصلاح تدریجی و تمرین منظم از شتاب در حفظ قواعد مهم‌تر است.",
+    body: "تجوید زمانی آسان‌تر می‌شود که هر قاعده با تلاوت واقعی پیوند داشته باشد. به‌جای حفظ همه‌چیز در یک مرحله، بهتر است گوش دهید، تکرار کنید و هر بار یک اصل را به کار ببرید.\n\nاصلاح صبورانه ضروری است. استاد باید تغییر را توضیح دهد، صدا را روشن اجرا کند و فرصت کافی برای تکرار بدهد. مرور منظم نیز تلاش آگاهانه را به عادت طبیعی تلاوت تبدیل می‌کند.\n\nپیشرفت ممکن است تدریجی باشد، اما تلفظ درست هر حرف ارزشمند است. استمرار و دلگرمی به دانش‌آموز کمک می‌کند با دقت و اطمینان تلاوت کند.",
+    category: "مطالعات قرآن",
+    cover_image_alt: "قرآن باز برای یک جلسه آموزشی هدایت‌شده",
+    author_name: "گروه آموزشی SHIA TALEEM",
+  },
+};
+
+const farsiGalleryCopy: Record<string, Pick<GalleryItem, "title" | "caption" | "category" | "image_alt">> = {
+  "fallback-gallery-1": { title: "آموزش زنده و خصوصی قرآن", caption: "جلسه‌ای متمرکز و متناسب با سطح و سرعت هر دانش‌آموز.", category: "کلاس‌های زنده", image_alt: "دانش‌آموز در کلاس زنده آنلاین قرآن" },
+  "fallback-gallery-2": { title: "اساتید خانم دلسوز", caption: "راهنمایی روشن، اصلاح صبورانه و محیط آموزشی محترمانه.", category: "اساتید", image_alt: "استاد خانم در حال برگزاری کلاس آنلاین" },
+  "fallback-gallery-3": { title: "نخستین گام سنجیده", caption: "جلسه آزمایشی به خانواده کمک می‌کند استاد مناسب را بشناسد و برنامه‌ای عملی انتخاب کند.", category: "مسیر دانش‌آموز", image_alt: "دانش‌آموز در حال آغاز کلاس آنلاین قرآن" },
+  "fallback-gallery-4": { title: "یادگیری همراه با قرآن", caption: "تمرین منظم، خواندن را روان، دقیق و مطمئن می‌سازد.", category: "مطالعات قرآن", image_alt: "قرآن باز در یک جلسه آموزشی" },
+};
+
 const blogColumns = "id,locale,slug,title,excerpt,body,category,cover_image_url,cover_image_alt,author_name,reading_time_minutes,is_featured,is_published,published_at,display_order,deleted_at,created_at,updated_at";
 const galleryColumns = "id,locale,title,caption,category,image_url,image_alt,is_featured,is_published,published_at,display_order,deleted_at,created_at,updated_at";
 
 function localizedPosts(locale: Locale): BlogPost[] {
-  return fallbackPosts.map((post) => ({ ...post, locale }));
+  return fallbackPosts.map((post) => ({ ...post, ...(locale === "fa" ? farsiPostCopy[post.slug] : {}), locale }));
 }
 
 function localizedGallery(locale: Locale): GalleryItem[] {
-  return fallbackGallery.map((item) => ({ ...item, locale }));
+  return fallbackGallery.map((item) => ({ ...item, ...(locale === "fa" ? farsiGalleryCopy[item.id] : {}), locale }));
 }
 
 export const getPublicBlogPosts = cache(async (locale: Locale): Promise<BlogPost[]> => {
