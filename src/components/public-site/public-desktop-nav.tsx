@@ -16,7 +16,7 @@ function switchLocale(pathname: string, locale: Locale) {
 export function PublicDesktopNav({ locale, items, label }: { locale: Locale; items: NavItem[]; label: string }) {
   const pathname = usePathname();
   return (
-    <nav aria-label={label} className="hidden flex-1 items-center justify-center gap-1 xl:flex">
+    <nav aria-label={label} className="hidden flex-1 items-center justify-center xl:flex">
       {items.map((item) => {
         const href = `/${locale}${item.href}`;
         const active = item.href === "" ? pathname === `/${locale}` : pathname === href || pathname.startsWith(`${href}/`);
@@ -25,7 +25,7 @@ export function PublicDesktopNav({ locale, items, label }: { locale: Locale; ite
             key={item.href || "home"}
             variant={active ? "secondary" : "ghost"}
             size="sm"
-            className="px-3 text-[0.9rem] font-medium"
+            className="px-2.5 text-[0.88rem] font-medium"
             asChild
           >
             <Link

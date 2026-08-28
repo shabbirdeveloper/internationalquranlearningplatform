@@ -28,6 +28,8 @@ const ar: Dictionary = {
       { label: "كيف نعمل", href: "/how-it-works" },
       { label: "من نحن", href: "/about" },
       { label: "الأسعار", href: "/pricing" },
+      { label: "المدونة", href: "/blog" },
+      { label: "المعرض", href: "/gallery" },
       { label: "تواصل معنا", href: "/contact" },
     ],
   },

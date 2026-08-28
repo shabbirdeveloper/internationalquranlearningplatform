@@ -27,6 +27,8 @@ const en: Dictionary = {
       { label: "How It Works", href: "/how-it-works" },
       { label: "About", href: "/about" },
       { label: "Pricing", href: "/pricing" },
+      { label: "Blog", href: "/blog" },
+      { label: "Gallery", href: "/gallery" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -219,6 +221,8 @@ const en: Dictionary = {
       staffDirectory: "Staff directory",
       requests: "Public requests",
       pricing: "Pricing",
+      blog: "Blog",
+      gallery: "Gallery",
     },
     metrics: {
       activeStudents: "Active students",

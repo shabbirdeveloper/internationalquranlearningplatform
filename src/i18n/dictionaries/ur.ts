@@ -28,6 +28,8 @@ const ur: Dictionary = {
       { label: "طریقۂ کار", href: "/how-it-works" },
       { label: "ہمارے بارے میں", href: "/about" },
       { label: "فیس", href: "/pricing" },
+      { label: "بلاگ", href: "/blog" },
+      { label: "گیلری", href: "/gallery" },
       { label: "رابطہ", href: "/contact" },
     ],
   },

@@ -11,6 +11,7 @@ import {
   FileTextIcon,
   GraduationCapIcon,
   HouseIcon,
+  ImagesIcon,
   LibraryBigIcon,
   LifeBuoyIcon,
   Link2Icon,
@@ -79,6 +80,8 @@ function getRoleLabel(access: UserAccess, dictionary: Dictionary): string {
 }
 
 function getPortalTitle(pathname: string, dictionary: Dictionary): string {
+  if (pathname.includes("/admin/blog")) return dictionary.portal.nav.blog;
+  if (pathname.includes("/admin/gallery")) return dictionary.portal.nav.gallery;
   if (pathname.includes("/admin/pricing")) return dictionary.portal.nav.pricing;
   if (pathname.includes("/admin/courses")) return dictionary.portal.nav.courses;
   if (pathname.endsWith("/profile")) return dictionary.portal.phase2.profileTitle;
@@ -115,9 +118,10 @@ function getNavItems(
       { label: dictionary.portal.nav.requests, href: `${basePath}/requests`, icon: ClipboardCheckIcon, permission: PERMISSIONS.ADMISSIONS_READ, available: true },
       { label: dictionary.portal.nav.pricing, href: `${basePath}/pricing`, icon: CircleDollarSignIcon, permission: PERMISSIONS.CONTENT_MANAGE, available: true },
       { label: dictionary.portal.nav.courses, href: `${basePath}/courses`, icon: BookOpenIcon, permission: PERMISSIONS.COURSES_MANAGE, available: true },
+      { label: dictionary.portal.nav.blog, href: `${basePath}/blog`, icon: FileTextIcon, permission: PERMISSIONS.CONTENT_MANAGE, available: true },
+      { label: dictionary.portal.nav.gallery, href: `${basePath}/gallery`, icon: ImagesIcon, permission: PERMISSIONS.CONTENT_MANAGE, available: true },
       { label: dictionary.portal.nav.operations, href: basePath, icon: CalendarDaysIcon, permission: PERMISSIONS.SCHEDULING_READ },
       { label: dictionary.portal.nav.finance, href: basePath, icon: CircleDollarSignIcon, permission: PERMISSIONS.FINANCE_READ },
-      { label: dictionary.portal.nav.content, href: basePath, icon: FileTextIcon, permission: PERMISSIONS.CONTENT_READ },
       { label: dictionary.portal.nav.security, href: basePath, icon: ShieldCheckIcon, permission: PERMISSIONS.SECURITY_READ },
       { label: dictionary.portal.nav.settings, href: basePath, icon: SettingsIcon, permission: PERMISSIONS.SETTINGS_MANAGE },
     ];

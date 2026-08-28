@@ -138,6 +138,8 @@ export type Dictionary = {
       staffDirectory: string;
       requests: string;
       pricing: string;
+      blog: string;
+      gallery: string;
     };
     metrics: {
       activeStudents: string;
