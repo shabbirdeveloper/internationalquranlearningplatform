@@ -4,19 +4,13 @@ import Link from "next/link";
 import {
   ArrowRightIcon,
   BookOpenCheckIcon,
-  CalendarClockIcon,
   CheckIcon,
-  CircleUserRoundIcon,
-  ClipboardCheckIcon,
   Globe2Icon,
-  GraduationCapIcon,
   HeartHandshakeIcon,
   LineChartIcon,
   MonitorPlayIcon,
-  RouteIcon,
   ShieldCheckIcon,
   SparklesIcon,
-  UsersRoundIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
 
@@ -26,18 +20,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { AboutReasonCards } from "@/components/public-site/about-reason-cards";
 import { Button } from "@/components/ui/button";
 import { aboutPageCopy as copy } from "@/content/about-page";
 import { isLocale } from "@/i18n/config";
-
-const reasonIcons = [
-  GraduationCapIcon,
-  CircleUserRoundIcon,
-  CalendarClockIcon,
-  RouteIcon,
-  ClipboardCheckIcon,
-  UsersRoundIcon,
-] as const;
 
 const differenceIcons = [
   SparklesIcon,
@@ -127,27 +113,7 @@ export default async function AboutPage({
               {copy.reasons.title}
             </h2>
           </div>
-          <div className="mt-12 grid border-t border-primary/15 md:grid-cols-2 lg:grid-cols-3">
-            {copy.reasons.items.map((item, index) => {
-              const Icon = reasonIcons[index];
-              return (
-                <article
-                  key={item.title}
-                  className="border-b border-primary/15 py-9 md:px-8 md:odd:border-r lg:border-r lg:px-9 lg:[&:nth-child(3n)]:border-r-0"
-                >
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                    <Icon className="size-5" aria-hidden="true" />
-                  </span>
-                  <h3 className="mt-6 font-heading text-xl font-semibold tracking-[-0.02em]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    {item.description}
-                  </p>
-                </article>
-              );
-            })}
-          </div>
+          <AboutReasonCards items={copy.reasons.items} />
         </div>
       </section>
 
