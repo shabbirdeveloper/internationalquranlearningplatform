@@ -49,7 +49,7 @@ export function ScrollTilawatPlayer() {
     <>
       <audio
         ref={audioRef}
-        src="/audio/surah-ar-rahman.mp3"
+        src="/audio/surah-al-alaq.mp3"
         preload="none"
         loop
         onPlay={() => setIsPlaying(true)}
