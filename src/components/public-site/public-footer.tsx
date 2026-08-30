@@ -130,6 +130,17 @@ export function PublicFooter({
           <p>© {new Date().getUTCFullYear()} {dictionary.common.brandName}</p>
           <div className="flex flex-wrap gap-5"><Link href={`/${locale}/privacy`} className="transition-colors hover:text-sidebar-foreground">Privacy</Link><Link href={`/${locale}/terms`} className="transition-colors hover:text-sidebar-foreground">Terms</Link><Link href={`/${locale}/safeguarding`} className="transition-colors hover:text-sidebar-foreground">Safeguarding</Link><Link href={`/${locale}/become-a-tutor`} className="transition-colors hover:text-sidebar-foreground">Apply as tutor</Link><Link href={`/${locale}/login`} className="transition-colors hover:text-sidebar-foreground">{dictionary.common.signIn}</Link></div>
         </div>
+        <p className="mt-6 text-center text-xs text-sidebar-foreground/40">
+          Powered by{" "}
+          <a
+            href="https://www.northdigitaltech.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-gold/80 transition-colors hover:text-gold"
+          >
+            North Digital Tech
+          </a>
+        </p>
       </div>
     </footer>
   );
