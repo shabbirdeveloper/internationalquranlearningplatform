@@ -136,7 +136,7 @@ export function PublicFooter({
             href="https://www.northdigitaltech.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-gold/80 transition-colors hover:text-gold"
+            className="font-semibold text-sky-300 transition-colors hover:text-sky-200"
           >
             North Digital Tech
           </a>

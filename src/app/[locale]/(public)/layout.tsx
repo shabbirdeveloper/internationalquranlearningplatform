@@ -27,7 +27,7 @@ export default async function PublicLayout({
       <PublicHeader locale={localeValue} dictionary={dictionary} />
       {children}
       <PublicFooter locale={localeValue} dictionary={dictionary} />
-      <ScrollTilawatPlayer locale={localeValue} />
+      <ScrollTilawatPlayer />
     </PremiumTouchFeedback>
   );
 }
