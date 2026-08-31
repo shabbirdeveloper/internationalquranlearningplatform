@@ -197,15 +197,14 @@ export function HomeSocialConnect({ locale }: { locale: Locale }) {
         rel="noopener noreferrer"
         data-home-whatsapp-cta
         aria-label={copy.floatingWhatsapp}
-        className={`group fixed bottom-4 start-4 z-40 flex min-h-12 items-center gap-2.5 rounded-full bg-[#25D366] px-3.5 py-2.5 font-semibold text-[#062f1c] shadow-2xl shadow-black/25 transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 sm:bottom-6 sm:start-6 sm:px-4 ${
+        className={`group fixed bottom-20 end-4 z-40 flex size-14 items-center justify-center rounded-full bg-[#25D366] p-0 text-[#062f1c] shadow-2xl shadow-black/25 transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 sm:bottom-24 sm:end-6 ${
           isSectionVisible
             ? "pointer-events-none translate-y-4 scale-90 opacity-0"
             : "translate-y-0 scale-100 opacity-100"
         }`}
       >
         <span className="absolute -inset-1 -z-10 rounded-full bg-[#25D366]/35 motion-safe:animate-ping" aria-hidden="true" />
-        <WhatsAppLogo className="size-6 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
-        <span className="hidden text-sm sm:inline">WhatsApp</span>
+        <WhatsAppLogo className="size-7 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
       </a>
     </>
   );
