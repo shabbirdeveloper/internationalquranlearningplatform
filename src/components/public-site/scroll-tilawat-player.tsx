@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-const backgroundVolume = 0.12;
+const backgroundVolume = 0.06;
 
 export function ScrollTilawatPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -17,12 +17,41 @@ export function ScrollTilawatPlayer() {
 
     audio.volume = backgroundVolume;
 
-    void audio.play().then(
-      () => setIsPlaying(true),
-      () => setIsPlaying(false)
-    );
+    function removeUnlockListeners() {
+      window.removeEventListener("click", unlockPlayback);
+      window.removeEventListener("keydown", unlockPlayback);
+    }
+
+    function beginPlayback() {
+      void audio?.play().then(
+        () => {
+          removeUnlockListeners();
+          setIsPlaying(true);
+        },
+        () => setIsPlaying(false)
+      );
+    }
+
+    function unlockPlayback(event: Event) {
+      removeUnlockListeners();
+
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest("[data-tilawat-control]")
+      ) {
+        return;
+      }
+
+      beginPlayback();
+    }
+
+    window.addEventListener("click", unlockPlayback);
+    window.addEventListener("keydown", unlockPlayback);
+    beginPlayback();
 
     return () => {
+      removeUnlockListeners();
       audio.pause();
     };
   }, []);
@@ -61,6 +90,7 @@ export function ScrollTilawatPlayer() {
           variant="outline"
           size="icon-lg"
           onClick={togglePlayback}
+          data-tilawat-control
           aria-label={isPlaying ? "Pause recitation" : "Play recitation"}
           aria-pressed={isPlaying}
           title={isPlaying ? "Pause recitation" : "Play recitation"}
