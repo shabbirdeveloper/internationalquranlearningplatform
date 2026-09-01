@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-const backgroundVolume = 0.06;
+const backgroundVolume = 0.03;
 
 export function ScrollTilawatPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -79,7 +79,8 @@ export function ScrollTilawatPlayer() {
       <audio
         ref={audioRef}
         src="/audio/surah-al-alaq.mp3"
-        preload="none"
+        preload="auto"
+        autoPlay
         loop
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}

@@ -19,8 +19,11 @@ export function AcademyBrand({
   return (
     <Link
       href={href}
+      aria-label={`${name} homepage`}
+      title={`${name} — Home`}
+      data-home-brand-link
       className={cn(
-        "inline-flex items-center rounded-xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+        "-m-2 inline-flex cursor-pointer items-center rounded-xl p-2 outline-none transition-transform duration-300 hover:scale-[1.03] focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98]",
         inverse ? "text-sidebar-foreground" : "text-primary"
       )}
     >

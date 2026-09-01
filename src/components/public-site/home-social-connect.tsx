@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRightIcon } from "lucide-react";
+import { ArrowUpIcon, ArrowUpRightIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import type { Locale } from "@/i18n/config";
@@ -16,6 +16,7 @@ const socialCopy: Record<
     facebook: string;
     x: string;
     floatingWhatsapp: string;
+    backToTop: string;
     message: string;
   }
 > = {
@@ -27,6 +28,7 @@ const socialCopy: Record<
     facebook: "Share on Facebook",
     x: "Share on X",
     floatingWhatsapp: "Chat with Shia Taleem on WhatsApp",
+    backToTop: "Back to top",
     message: "Assalamu Alaikum, I would like to know more about Shia Taleem.",
   },
   ur: {
@@ -37,6 +39,7 @@ const socialCopy: Record<
     facebook: "فیس بک پر شیئر کریں",
     x: "ایکس پر شیئر کریں",
     floatingWhatsapp: "واٹس ایپ پر شیعہ تعلیم سے رابطہ کریں",
+    backToTop: "اوپر واپس جائیں",
     message: "السلام علیکم، میں شیعہ تعلیم کے بارے میں مزید جاننا چاہتا ہوں۔",
   },
   ar: {
@@ -47,6 +50,7 @@ const socialCopy: Record<
     facebook: "شارك على فيسبوك",
     x: "شارك على إكس",
     floatingWhatsapp: "تواصل مع شيعة تعليم عبر واتساب",
+    backToTop: "العودة إلى الأعلى",
     message: "السلام عليكم، أود معرفة المزيد عن شيعة تعليم.",
   },
   fa: {
@@ -57,6 +61,7 @@ const socialCopy: Record<
     facebook: "اشتراک‌گذاری در فیسبوک",
     x: "اشتراک‌گذاری در ایکس",
     floatingWhatsapp: "ارتباط با شیعه تعلیم در واتساپ",
+    backToTop: "بازگشت به بالا",
     message: "السلام علیکم، می‌خواهم درباره شیعه تعلیم بیشتر بدانم.",
   },
 };
@@ -115,6 +120,7 @@ export function HomeSocialConnect({ locale }: { locale: Locale }) {
   const copy = socialCopy[locale];
   const sectionRef = useRef<HTMLElement>(null);
   const [isSectionVisible, setIsSectionVisible] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(copy.message)}`;
   const actionClass =
     "group flex min-h-14 items-center gap-3 rounded-full px-5 py-3 text-sm font-semibold shadow-lg transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/60 active:translate-y-0";
@@ -132,6 +138,22 @@ export function HomeSocialConnect({ locale }: { locale: Locale }) {
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const updateVisibility = () => setShowScrollTop(window.scrollY > 640);
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
+
+  function scrollToTop() {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  }
 
   return (
     <>
@@ -206,6 +228,24 @@ export function HomeSocialConnect({ locale }: { locale: Locale }) {
         <span className="absolute -inset-1 -z-10 rounded-full bg-[#25D366]/35 motion-safe:animate-ping" aria-hidden="true" />
         <WhatsAppLogo className="size-7 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
       </a>
+
+      <button
+        type="button"
+        data-scroll-to-top
+        aria-label={copy.backToTop}
+        title={copy.backToTop}
+        onClick={scrollToTop}
+        className={`group fixed end-4 bottom-[9.5rem] z-40 flex size-12 items-center justify-center rounded-full border border-sky-300/40 bg-sidebar/92 text-sky-100 shadow-xl shadow-black/20 backdrop-blur-md transition-[opacity,transform,background-color,border-color] duration-300 hover:scale-105 hover:border-sky-200 hover:bg-sidebar active:scale-95 sm:end-6 sm:bottom-44 ${
+          showScrollTop
+            ? "translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none translate-y-3 scale-90 opacity-0"
+        }`}
+      >
+        <ArrowUpIcon
+          aria-hidden="true"
+          className="size-5 motion-safe:group-hover:-translate-y-0.5 motion-safe:transition-transform"
+        />
+      </button>
     </>
   );
 }
